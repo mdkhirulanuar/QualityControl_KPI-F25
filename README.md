@@ -1,1 +1,0 @@
-# QualityControl_KPI-F25
