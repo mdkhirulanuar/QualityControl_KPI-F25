@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+      InspectWise Go – AQL Sampling Inspection PWA
+      This HTML template is based on the original QualityControl v4 application.
+      It has been adapted to work with our modular PWA structure and offline support.
+    -->
+    <meta charset="UTF-8">
+    <!-- Use a modern viewport declaration that allows scaling and supports iOS safe areas.
+         Removing the maximum-scale and user-scalable restrictions improves accessibility and
+         compatibility on iPhone and Android devices. The viewport-fit value ensures that
+         the layout respects device notches (e.g. iPhone X and Samsung Galaxy). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>KPI‑F25 Form – AQL Sampling Inspection</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome Icons (for install button icon) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-FZkwGdwJcOxraPjqoGdP8oiY0sq2oY0wsA7vD1yk9DjxiQl2fj4pTNS6K4i8R3FghJcAgsjaXXiQmKk1Xs4Y9g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- External libraries for PDF generation and annotation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js" defer></script>
+    <!-- Removed Fabric.js since annotation features are disabled -->
+    <!-- PWA Manifest and icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icons/icon-192.png">
+    <meta name="theme-color" content="#2575fc">
+</head>
+<body>
+    <div class="container">
+        <h1>KPI‑F25 FORM</h1>
+        <center><p>AQL SAMPLING INSPECTION RECORD</p></center>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error-message" style="display:none;"></div>
+
+        <!-- Main Sampling Form -->
+        <form id="aqlForm">
+            <!-- Sampling Information -->
+            <div class="form-section batch-info">
+                <h2><center>SAMPLING INFORMATION</center></h2>
+                <div class="form-grid">
+                    <!-- QC Inspector Name -->
+                    <div>
+                        <label for="qcInspector">QC Inspector Name:</label>
+                        <select id="qcInspector" name="qcInspector" required>
+                            <option value="">-- Select QC Inspector Name --</option>
+                            <option value="Khirul Anuar">Khirul Anuar</option>
+                            <option value="Dharisini">Dharisini</option>
+                        </select>
+                    </div>
+                    <!-- Operator Name -->
+                    <div>
+                        <label for="operatorName">Operator Name:</label>
+                        <select id="operatorName" name="operatorName" required>
+                            <option value="">-- Select Operator Name --</option>
+                        </select>
+                    </div>
+                    <!-- Machine Number -->
+                    <div>
+                        <label for="machineNumber">Machine No:</label>
+                        <select id="machineNumber" name="machineNumber" required>
+                            <option value="">-- Select Machine No --</option>
+                            <option value="M01">M01</option>
+                            <option value="M02">M02</option>
+                            <option value="M03">M03</option>
+                            <option value="M04">M04</option>
+                            <option value="M05">M05</option>
+                            <option value="M06">M06</option>
+                            <option value="M07">M07</option>
+                            <option value="M08">M08</option>
+                            <option value="M09">M09</option>
+                            <option value="M10">M10</option>
+                            <option value="M11">M11</option>
+                            <option value="M12">M12</option>
+                            <option value="M13">M13</option>
+                            <option value="M14">M14</option>
+                            <option value="M15">M15</option>
+                            <option value="M16">M16</option>
+                            <option value="M17">M17</option>
+                            <option value="M18">M18</option>
+                            <option value="M19">M19</option>
+                            <option value="M20">M20</option>
+                        </select>
+                    </div>
+                    <!-- Part Name -->
+                    <div>
+                        <label for="partName">Part Name:</label>
+                        <select id="partName" name="partName">
+                            <option value="">-- Select Part Name --</option>
+                        </select>
+                    </div>
+                    <!-- Part ID (auto-filled) -->
+                    <div>
+                        <label for="partId">Part ID:</label>
+                        <input type="text" id="partId" name="partId" readonly>
+                    </div>
+                    <!-- PO Number -->
+                    <div>
+                        <label for="poNumber">PO Number:</label>
+                        <input type="text" id="poNumber" name="poNumber" placeholder="Enter PO Number">
+                    </div>
+                    <!-- Production Date -->
+                    <div>
+                        <label for="productionDate">Production Date:</label>
+                        <input type="date" id="productionDate" name="productionDate">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lot Details -->
+            <div class="form-section lot-details">
+                <h2><center>SAMPLING PLAN DETAILS</center></h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="numBoxes">Number of Boxes:</label>
+                        <!--
+                          Use pattern="[0-9]*" along with inputmode="numeric" to hint mobile browsers to
+                          display a numeric keypad. This improves usability on Samsung and iPhone devices
+                          while still allowing the value to be validated as a number via the min attribute.
+                        -->
+                        <input type="number" id="numBoxes" name="numBoxes" min="1" inputmode="numeric" pattern="[0-9]*" required>
+                    </div>
+                    <div>
+                        <label for="pcsPerBox">Pieces per Box:</label>
+                        <input type="number" id="pcsPerBox" name="pcsPerBox" min="1" inputmode="numeric" pattern="[0-9]*" required>
+                    </div>
+                    <div>
+                        <label for="lotSize">Total Lot Size:</label>
+                        <input type="number" id="lotSize" name="lotSize" readonly required>
+                    </div>
+                    <div>
+                        <label for="aql">Acceptable Quality Level:</label>
+                        <select id="aql" name="aql" required>
+                            <option value="">-- Select AQL Quality --</option>
+                            <option value="1.0">Strict (only 1% defective allowed)</option>
+                            <option value="2.5">Standard (up to 2.5% defective allowed)</option>
+                            <option value="4.0">Low (up to 4% defective allowed)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="button-group">
+                <button type="button" id="calculateButton">Calculate</button>
+                <button type="button" id="resetButton">Reset</button>
+            </div>
+        </form>
+
+        <!-- Results Section -->
+        <div id="results" class="results-section" aria-live="polite">
+            <p class="initial-message">Please enter batch details, select quality level, and click calculate.</p>
+        </div>
+
+        <!-- Defects Input Section -->
+        <div id="defectsInputArea" class="form-section" style="display:none;">
+            <label for="defectsFound">Number of Defects Parts Found:</label>
+            <select id="defectsFound" name="defectsFound" required>
+                <option value="" disabled selected>-- Select Number --</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+            </select>
+            <button type="button" id="submitDefectsButton">Submit Defects</button>
+        </div>
+
+        <!-- Verdict Message -->
+        <div id="verdictMessage" class="results-section" style="display:none;" aria-live="polite"></div>
+
+        <!-- Defect Checklist -->
+        <div id="defectChecklist" class="form-section checklist-section" style="display:none;">
+            <h4>Defect Types</h4>
+            <div class="checklist-container">
+                <label><input type="checkbox" name="defect_type" value="Plastic - Scratches"> Plastic - Scratches</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Short Mould"> Plastic - Short Mould</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Painting Peel Off"> Plastic - Painting Peel Off</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Silkscreen Peel Off / Poor"> Plastic - Silkscreen Peel Off / Poor</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Weld/Joint Line Visible"> Plastic - Weld / Joint Line Visible</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Stressed Mark"> Plastic - Stressed Mark</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Bubble"> Plastic - Bubble</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Warped / Deformed"> Plastic - Warped / Deformed</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Excessive Flashes"> Plastic - Excessive Flashes</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Dirty / Stain"> Plastic - Dirty / Stain</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Oil Stain"> Plastic - Oil Stain</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Silverstreak"> Plastic - Silverstreak</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Brittle"> Plastic - Brittle</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Sink Mark"> Plastic - Sink Mark</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Flow Mark (Cosmetic)"> Plastic - Flow Mark (Cosmetic)</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Ejector Mark Visible"> Plastic - Ejector Mark Visible</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Cracked Part"> Plastic - Cracked Part</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Broken Part"> Plastic - Broken Part</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Un-shining / Poor Gloss"> Plastic - Un‑shining / Poor Gloss</label>
+                <label><input type="checkbox" name="defect_type" value="Plastic - Spots / Black Dot"> Plastic - Spots / Black Dot</label>
+                <!-- Other defect option with text input shown when checked -->
+                <label><input type="checkbox" name="defect_type" value="Other" id="otherDefectCheckbox"> Other (Please specify)</label>
+                <!-- Text input for specifying other defect description, hidden by default -->
+                <input type="text" id="otherDefectText" placeholder="Describe other defect" style="display:none; margin-top:5px; width:100%;">
+            </div>
+        </div>
+
+        <!-- Photo Capture Area -->
+        <div id="photoCaptureArea" class="form-section photo-section" style="display:none;">
+            <h4>Photo of Defected Parts (Optional)</h4>
+            <p>Add up to 10 photos to document defects.</p>
+            <div class="photo-options">
+                <label for="uploadMultiplePhotos" class="upload-button">Upload Multiple Photos
+                    <input type="file" id="uploadMultiplePhotos" accept="image/*" multiple style="display:none;">
+                </label>
+            </div>
+            <div id="photoPreview" class="photo-preview">
+                <p>No photos added yet.</p>
+            </div>
+            <p id="photoCount">Photos: 0/10</p>
+        </div>
+
+        <!-- Annotation features removed -->
+
+        <!-- Generate Report Button -->
+        <button type="button" id="generateReportButton" style="display:none;">Generate Report</button>
+
+        <!-- Final Report Area -->
+        <div id="finalReportArea" style="display:none;">
+            <div id="reportContent" class="report-content"></div>
+            <div class="button-group" style="margin-top:0.5rem;">
+                <button id="savePdfButton">Save as PDF</button>
+                <button id="printButton">Print</button>
+            </div>
+        </div>
+
+        <!-- Install App Button -->
+        <button id="installButton" style="display:none;" class="install-btn"><i class="fa-solid fa-download"></i>&nbsp;Install App</button>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/operatorList.js"></script>
+    <script src="js/partsList.js"></script>
+    <!-- Centralised sampling plan logic. Including this script before app.js allows the
+         application to reuse a single source of truth for sampling calculations rather than
+         duplicating tables in multiple files, which makes maintenance easier. -->
+    <script src="js/samplingPlan.js"></script>
+    <!-- The application logic is contained in app.js, adapted from the original script.js -->
+    <script src="js/app.js"></script>
+    <!-- Service worker registration -->
+    <script src="js/sw-register.js"></script>
+</body>
+</html>
