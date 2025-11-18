@@ -122,6 +122,8 @@ window.partsList = [
     { partId: "18-17761-00", partName: "GOR TYG WE SD BK ML" },
     { partId: "18-18231-00", partName: "GORBASE DMC TYE TD SD WE KD" },
     { partId: "18-16131-00", partName: "GORBASE WE TYE NL SD BK KD R1" },
+    { partId: "VSH-4173-ASY3", partName: "HEATING ELEMENT 240V 3.8KW" },
+     { partId: "VSH-4174-ASY3", partName: "HEATING ELEMENT 240V 4.2KW" },
     { partId: "S-IP-BX1", partName: "INLET PIPE BX1" },
     { partId: "S-IP-BX2", partName: "INLET PIPE BX2" },
     { partId: "18-15723-00", partName: "JAR 1L BL G4/G5 (R1)" },
