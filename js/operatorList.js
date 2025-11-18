@@ -5,6 +5,7 @@
 // avoids import issues when running the app locally without a web server.
 window.OPERATOR_LIST = [
   "Md Repon Hossen",
+  "Khirul",
   "Sree Sukumar Shil",
   "Md Ashik Ali",
   "Salek Abdus",
